@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
                 double crossing_time = data["crossing_time"].as<double>();
 
                 // run the test
-                run_test(test_id, count, walk_time, crossing_time);
+                BridgeCrossing::run_test(test_id, count, walk_time, crossing_time);
             }
             catch(BridgeCrossing::Exception::TestFailed & e) {
                 // If a test failed for some reason, skip it and continue
