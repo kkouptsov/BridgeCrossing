@@ -32,6 +32,10 @@ int main(int argc, char *argv[])
                 int test_id = data["test_id"].as<int>();
                 int count = data["hikers"].as<int>();
                 std::vector<double> walk_time = data["walk_time"].as<std::vector<double>>();
+                if (walk_time.size() != count) {
+                    // count is a redundant field in test data. TODO: remove it.
+                    throw BridgeCrossing::Exception::TestFileFormat(argv[1]);
+                }
 
                 // expected result
                 double crossing_time = data["crossing_time"].as<double>();
