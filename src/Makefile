@@ -1,4 +1,4 @@
-
+HEADERS=$(wildcard *.h)
 SOURCES=$(wildcard *.cpp)
 OBJECTS=$(patsubst %.cpp, %.o, $(SOURCES))
 TARGETS=run-tests
@@ -9,7 +9,7 @@ LINK_FLAGS=-L/usr/lib/x86_64-linux-gnu/ -lyaml-cpp
 CC=g++
 
 
-run-tests: $(OBJECTS)
+run-tests: $(OBJECTS) $(HEADERS)
 	$(CC) -o run-tests $(OBJECTS) $(LINK_FLAGS)
 
 .cpp.o:
