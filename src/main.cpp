@@ -9,7 +9,6 @@
 
 int main(int argc, char *argv[])
 {
-    int err;
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <filename>" << std::endl;
         exit(0);
@@ -30,7 +29,7 @@ int main(int argc, char *argv[])
 
                 // test parameters
                 int test_id = data["test_id"].as<int>();
-                int count = data["hikers"].as<int>();
+                unsigned int count = data["hikers"].as<unsigned int>();
                 std::vector<double> walk_time = data["walk_time"].as<std::vector<double>>();
                 if (walk_time.size() != count) {
                     // count is a redundant field in test data. TODO: remove it.
@@ -41,7 +40,7 @@ int main(int argc, char *argv[])
                 double crossing_time = data["crossing_time"].as<double>();
 
                 // run the test
-                BridgeCrossing::run_test(test_id, count, walk_time, crossing_time);
+                BridgeCrossing::Test(test_id, count, walk_time, crossing_time).run();
             }
             catch(BridgeCrossing::Exception::TestFailed & e) {
                 // If a test failed for some reason, skip it and continue
