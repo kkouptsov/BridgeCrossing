@@ -118,10 +118,9 @@ def reconstruct(start, end):
 
 def dijkstra(start, end):
     pending = [start]
-    count = 0
     while pending:
         current = pending.pop(0)
-        # print('c:', current)
+        # print(current)
         if current.visited:
             continue
         neighbors = current.neighbors()
@@ -131,7 +130,6 @@ def dijkstra(start, end):
                 node.prev = make_key(current.code, current.type)
             pending.append(node)
             # print('     ', node)
-            count += 1
         current.visited = True
 
 def main():
