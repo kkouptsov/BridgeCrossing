@@ -12,7 +12,7 @@ CC=g++
 all: $(OBJECTS)
 	$(CC) -o run $(OBJECTS) $(LINK_FLAGS)
 
-%: %.cpp
+.cpp.o:
 	$(CC) $(COMPILE_FLAGS) -c $<
 
 .PHONY: clean
