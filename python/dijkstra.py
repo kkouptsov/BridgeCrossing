@@ -11,7 +11,7 @@ import sys
 data = [100, 50, 20, 10, 25, 15]
 length = 150
 
-## this should be a class
+## TODO: this should be a class
 
 all_nodes = {}
 
