@@ -26,6 +26,7 @@ std::vector<std::string> Node::reconstruct(std::string first, std::string last)
         path.push_back(n->previous);
         n = getNode(n->previous);
     }
+    path.push_back(first);
     std::reverse(path.begin(), path.end());
     return path;
 }
