@@ -57,7 +57,7 @@ public:
     friend std::ostream& operator<<(std::ostream& o, const std::shared_ptr<Node> n);
 
 private:
-    Node(State &s) : state{s}, visited{false}, weight{100000.} { }
+    Node(State &s) : state{s}, visited{false}, weight{-1.} { }
 
     Node(const Node & n) : state{n.state}, visited{n.visited}, weight{n.weight}, previous{} {}
 

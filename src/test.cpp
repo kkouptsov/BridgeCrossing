@@ -47,7 +47,8 @@ void Test::run()
             double cost = e.second;
             std::string name = s.to_string();
             std::shared_ptr<Node> node = Node::getNode(s);
-            if (node->weight > cost + current->weight) {
+            // node weight < 0 is equivalent to infinite weight; specifically check for that
+            if (node->weight < 0 || node->weight > cost + current->weight) {
                    node->weight = cost + current->weight;
                    node->previous = current_name;
             }
