@@ -45,6 +45,7 @@ void Test::run()
         current->visited = true;
     }
 
+#if 0
     // Visualize the data
     std::cout << "Visited nodes:\n";
     std::vector<Node*> nodes = Node::getAllNodes();
@@ -52,12 +53,19 @@ void Test::run()
         std::cout << e << '\n';
     }
     std::cout << '\n';
+ #endif
 
     // Get weight
     Node* end_node = Node::getNode(end_name);
-    std::cout << "Total crossing time:\n";
+    std::cout << "Total crossing time: ";
     std::cout << end_node->weight << '\n';
-    std::cout << "Test " << ((std::abs(end_node->weight - m_crossing_time) < 1.e-3) ? "suceeded" : "failed") << '\n';
+    if (std::abs(end_node->weight - m_crossing_time) < 1.e-3) {
+        std::cout << "Test suceeded\n";
+    }
+    else {
+        std::cout << "Test failed. ";
+        std::cout << "Expected crossing time: " << m_crossing_time << "\n";
+    }
 
     // Get path
     std::vector<std::string> path = Node::reconstruct(start_name, end_name);
@@ -66,6 +74,7 @@ void Test::run()
     }
     std::cout << '\n';
 
+    std::cout << "----------------------------------------------------\n";
 }
 
 }
