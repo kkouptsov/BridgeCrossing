@@ -18,7 +18,7 @@ void Test::run()
     std::string end_name = end.to_string();
 
     // In Dijkstra's algorithm we need nodes ordered by increasing weight.
-    auto GreaterByWeight = [](std::shared_ptr<Node> a, std::shared_ptr<Node> b)
+    auto ByIncreasingWeight = [](std::shared_ptr<Node> a, std::shared_ptr<Node> b)
     {
         return a->weight > b->weight;
     };
@@ -27,7 +27,7 @@ void Test::run()
     std::priority_queue<
         std::shared_ptr<Node>,
         std::vector<std::shared_ptr<Node>>,
-        decltype(GreaterByWeight)> Q(GreaterByWeight);
+        decltype(ByIncreasingWeight)> Q(ByIncreasingWeight);
 
     // Start node
     std::shared_ptr<Node> node = Node::getNode(start);
