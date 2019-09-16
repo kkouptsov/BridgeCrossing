@@ -1,5 +1,6 @@
 #include <vector>
 #include <limits>
+#include <memory>
 #include "state.h"
 #include "exceptions.h"
 
@@ -32,17 +33,17 @@ public:
     /**
      * Find the existing node corresponding to this state or create a new one.
      */
-    static Node* getNode(State &s);
+    static std::shared_ptr<Node> getNode(State &s);
 
     /**
      * Find the existing state corresponding to this string representation.
      */
-    static Node* getNode(std::string &name);
+    static std::shared_ptr<Node> getNode(std::string &name);
 
     /**
      * Return a list of all encountered.
      */
-    static std::vector<Node*> getAllNodes();
+    static std::vector<std::shared_ptr<Node>> getAllNodes();
 
     /**
      * Reconstruct a path between start and end nodes, if possible.
@@ -53,7 +54,7 @@ public:
     /**
      * Serialize the node to stream.
      */
-    friend std::ostream& operator<<(std::ostream& o, const Node* n);
+    friend std::ostream& operator<<(std::ostream& o, const std::shared_ptr<Node> n);
 
 private:
     Node(State &s) : state{s}, visited{false}, weight{100000.} { }
@@ -63,7 +64,7 @@ private:
     /**
      * Nodes is used to store all nodes that we encoutered indexed by their string representaton.
      */
-    static std::map<std::string, Node*> Nodes;
+    static std::map<std::string, std::shared_ptr<Node>> Nodes;
 };
 
 }

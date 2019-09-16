@@ -5,7 +5,7 @@
 
 namespace BridgeCrossing {
 
-std::map<std::string, Node*> Node::Nodes = {};
+std::map<std::string, std::shared_ptr<Node>> Node::Nodes = {};
 
 std::string Node::to_string()
 {
@@ -17,14 +17,14 @@ std::vector<std::pair<State, double>> Node::neighbors(std::vector<double> &walk_
     return state.neighbors(walk_time);
 }
 
-Node* Node::getNode(State &s)
+std::shared_ptr<Node> Node::getNode(State &s)
 {
-    Node *node;
+    std::shared_ptr<Node> node;
     std::string name = s.to_string();
     auto result = Nodes.find(name);
     if (result == Nodes.end()) {
-        node = new Node(s);
-        Nodes[s.to_string()] = node;
+        node = std::shared_ptr<Node>(new Node(s));
+        Nodes.insert(std::make_pair(s.to_string(), node));
     }
     else {
         node = result->second;
@@ -32,7 +32,7 @@ Node* Node::getNode(State &s)
     return node;
 }
 
-Node* Node::getNode(std::string &name)
+std::shared_ptr<Node> Node::getNode(std::string &name)
 {
     auto result = Nodes.find(name);
     if (result == Nodes.end()) {
@@ -43,16 +43,16 @@ Node* Node::getNode(std::string &name)
     }
 }
 
-std::vector<Node*> Node::getAllNodes()
+std::vector<std::shared_ptr<Node>> Node::getAllNodes()
 {
-    std::vector<Node*> res;
+    std::vector<std::shared_ptr<Node>> res;
     for (auto & e : Nodes) {
         res.push_back(e.second);
     }
     return res;
 }
 
-std::ostream& operator<<(std::ostream& o, const Node* n)
+std::ostream& operator<<(std::ostream& o, const std::shared_ptr<Node> n)
 {
     o << n->state;
     o << ',' << n->visited;
@@ -67,7 +67,7 @@ std::vector<std::string> Node::reconstruct(std::string first, std::string last)
     std::vector<std::string> path;
     try {
         path.push_back(last);
-        Node *n = getNode(last);
+        std::shared_ptr<Node> n = getNode(last);
         while(n != nullptr && n->previous != first) {
             path.push_back(n->previous);
             n = getNode(n->previous);

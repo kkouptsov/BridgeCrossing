@@ -18,14 +18,14 @@ void Test::run()
     std::string end_name = end.to_string();
 
     // These are states that were not completely processed.
-    std::queue<Node*> Q;
-    Node *node = Node::getNode(start);
+    std::queue<std::shared_ptr<Node>> Q;
+    std::shared_ptr<Node> node = Node::getNode(start);
     node->weight = 0;
     Q.push(node);
 
     // Dijkstra's shortest path algorithm.
     while(!Q.empty()) {
-        Node *current = Q.front();
+        std::shared_ptr<Node> current = Q.front();
         Q.pop();
         if (current->visited)
             continue;
@@ -35,7 +35,7 @@ void Test::run()
             State s = e.first;
             double cost = e.second;
             std::string name = s.to_string();
-            Node *node = Node::getNode(s);
+            std::shared_ptr<Node> node = Node::getNode(s);
             if (node->weight > cost + current->weight) {
                    node->weight = cost + current->weight;
                    node->previous = current_name;
@@ -58,7 +58,7 @@ void Test::run()
  #endif
 
     // Get weight
-    Node* end_node = Node::getNode(end_name);
+    std::shared_ptr<Node> end_node = Node::getNode(end_name);
     std::cout << "Total crossing time: ";
     std::cout << end_node->weight << '\n';
     if (std::abs(end_node->weight - m_crossing_time) < 1.e-3) {
