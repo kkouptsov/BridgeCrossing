@@ -45,6 +45,8 @@ void Test::run()
         current->visited = true;
     }
 
+    std::cout << "Test: " << m_test_id << '\n';
+
 #if 0
     // Visualize the data
     std::cout << "Visited nodes:\n";
