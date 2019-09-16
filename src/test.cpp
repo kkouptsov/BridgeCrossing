@@ -70,14 +70,13 @@ void Test::run()
 
     // Get weight
     std::shared_ptr<Node> end_node = Node::getNode(end_name);
-    std::cout << "Total crossing time: ";
-    std::cout << end_node->weight << '\n';
+    std::cout << "Computed crossing time: " << end_node->weight << '\n';
+    std::cout << "Expected crossing time: " << m_crossing_time << '\n';
     if (std::abs(end_node->weight - m_crossing_time) < 1.e-3) {
-        std::cout << "Test suceeded\n";
+        std::cout << "Test suceeded.\n";
     }
     else {
-        std::cout << "Test failed. ";
-        std::cout << "Expected crossing time: " << m_crossing_time << "\n";
+        std::cout << "Test failed.\n";
     }
 
     // Get path
