@@ -48,6 +48,8 @@ public:
         return res;
     }
 
+    static std::vector<std::string> reconstruct(std::string, std::string);
+
     friend std::ostream& operator<<(std::ostream& o, const Node* n);
 
 private:
