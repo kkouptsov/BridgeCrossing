@@ -1,67 +1,65 @@
 #include <vector>
 #include <limits>
 #include "state.h"
-	
+#include "exceptions.h"
+
 #pragma once
 
 namespace BridgeCrossing {
 
 class Node {
-public:
+private:
     State state;
+
+public:
     bool visited;
     double weight;
     std::string previous;
 
-    static Node* getNode(State &s)
-    {
-        Node *node;
-        std::string name = s.to_string();
-        auto result = Nodes.find(name);
-        if (result == Nodes.end()) {
-            node = new Node(s);
-            Nodes[s.to_string()] = node;
-        }
-        else {
-            node = result->second;
-        }
-        return node;
-    }
+    /**
+     * String representation of the state in this node.
+     */
+    std::string to_string();
 
-    static Node* getNode(std::string &name)
-    {
-        auto result = Nodes.find(name);
-        if (result == Nodes.end()) {
-            return nullptr;
-        }
-        else {
-            return result->second;
-        }
-    }
+    /**
+     * 
+     */
+    std::vector<std::pair<State, double>> neighbors(std::vector<double> &walk_time);
 
-    static std::vector<Node*> getAllNodes()
-    {
-        std::vector<Node*> res;
-        for (auto & e : Nodes) {
-            res.push_back(e.second);
-        }
-        return res;
-    }
+    /**
+     * Find the existing node corresponding to this state or create a new one.
+     */
+    static Node* getNode(State &s);
 
-    static std::vector<std::string> reconstruct(std::string, std::string);
+    /**
+     * Find the existing state corresponding to this string representation.
+     */
+    static Node* getNode(std::string &name);
 
+    /**
+     * Return a list of all encountered.
+     */
+    static std::vector<Node*> getAllNodes();
+
+    /**
+     * Reconstruct a path between start and end nodes, if possible.
+     * If the path cannot be reconstructed, return an empty vector.
+     */
+    static std::vector<std::string> reconstruct(std::string start, std::string end);
+
+    /**
+     * Serialize the node to stream.
+     */
     friend std::ostream& operator<<(std::ostream& o, const Node* n);
 
 private:
-    Node(State &s) : 
-        state{s}, visited{false},
-        weight{100000.}
-    {
-    }
+    Node(State &s) : state{s}, visited{false}, weight{100000.} { }
 
     Node(const Node & n) : state{n.state}, visited{n.visited}, weight{n.weight}, previous{} {}
 
-    // Map is used to store all nodes that we encoutered indexed by their string representaton.
+    /**
+     * Nodes is used to store all nodes that we encoutered indexed by their string representaton.
+     */
     static std::map<std::string, Node*> Nodes;
 };
 

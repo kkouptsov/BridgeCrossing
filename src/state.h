@@ -36,11 +36,6 @@ public:
     {
     }
 
-    State(const State &s) : 
-        m_type{s.m_type}, m_state {s.m_state}
-    {
-    }
-
     /**
      * Return a vector with numbers of the hikers, which are on the specified side.
      */

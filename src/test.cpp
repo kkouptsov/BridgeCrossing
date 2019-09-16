@@ -29,8 +29,8 @@ void Test::run()
         Q.pop();
         if (current->visited)
             continue;
-        std::string current_name = current->state.to_string();
-        auto neighbors = current->state.neighbors(m_walk_time);
+        std::string current_name = current->to_string();
+        auto neighbors = current->neighbors(m_walk_time);
         for (auto & e : neighbors) {
             State s = e.first;
             double cost = e.second;

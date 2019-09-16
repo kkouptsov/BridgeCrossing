@@ -1,8 +1,10 @@
-
 #include <stdexcept>
+
+#pragma once
 
 namespace BridgeCrossing {
 namespace Exception {
+
     class TestFileFormat : public std::exception 
     {
     public:
@@ -19,6 +21,15 @@ namespace Exception {
         const char* what() { return m_id.c_str(); }
     private:
         std::string m_id;
+    };
+
+    class NodeNotFound : public std::exception 
+    {
+    public:
+        NodeNotFound(std::string &name) : m_name{name} {}
+        const char* what() { return m_name.c_str(); }
+    private:
+        std::string m_name;
     };
 }
 }
