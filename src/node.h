@@ -12,6 +12,9 @@ private:
     State state;
 
 public:
+    /*
+       Public for simplicity. These could be private with get() and set().
+    */
     bool visited;
     double weight;
     std::string previous;

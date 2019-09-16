@@ -63,7 +63,6 @@ public:
 
 private:
     std::vector<bool> m_state;
-
 };
 
 }
