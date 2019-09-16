@@ -1,0 +1,154 @@
+
+# The following are from Ranu - Optimization Rules in DLV for the Bridge Crossing Problem
+
+test:
+    test_id: 6
+    hikers: 4
+    walk_time: [1, 5, 6, 7]
+    crossing_time: 20
+
+---
+
+test:
+    test_id: 7
+    hikers: 5
+    walk_time: [1, 8, 9, 12, 13]
+    crossing_time: 45
+
+---
+
+test:
+    test_id: 8
+    hikers: 5
+    walk_time: [1, 8, 9, 20, 30]
+    crossing_time: 65
+
+---
+
+test:
+    test_id: 9
+    hikers: 6
+    walk_time: [1, 2, 5, 10, 11, 12]
+    crossing_time: 34
+
+---
+
+test:
+    test_id: 10
+    hikers: 6
+    walk_time: [1, 5, 7, 10, 11, 12]
+    crossing_time: 47
+
+---
+
+test:
+    test_id: 11
+    hikers: 7
+    walk_time: [1, 7, 8, 9, 10, 12, 15]
+    crossing_time: 65
+
+---
+
+test:
+    test_id: 12
+    hikers: 7
+    walk_time: [1, 3, 7, 8, 10, 12, 15]
+    crossing_time: 50
+
+---
+
+test:
+    test_id: 13
+    hikers: 8
+    walk_time: [1, 6, 7, 10, 11, 12, 13, 14]
+    crossing_time: 77
+
+---
+
+test:
+    test_id: 14
+    hikers: 8
+    walk_time: [1, 7, 8, 9, 10, 11, 12, 13]
+    crossing_time: 76
+
+---
+
+test:
+    test_id: 15
+    hikers: 9
+    walk_time: [1, 2, 6, 7, 10, 12, 13, 14, 15]
+    crossing_time: 62
+
+---
+
+test:
+    test_id: 16
+    hikers: 9
+    walk_time: [1, 5, 6, 7, 10, 14, 16, 18, 20]
+    crossing_time: 89
+
+---
+
+test:
+    test_id: 17
+    hikers: 10
+    walk_time: [1, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+    crossing_time: 134
+
+---
+
+test:
+    test_id: 18
+    hikers: 10
+    walk_time: [1, 7, 8, 9,10, 11, 14, 15, 18, 20]
+    crossing_time: 114
+
+---
+
+test:
+    test_id: 19
+    hikers: 10
+    walk_time: [1, 2, 5, 10, 11, 12, 13, 14, 15, 16]
+    crossing_time: 74
+
+---
+
+test:
+    test_id: 20
+    hikers: 15
+    walk_time: [1, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+    crossing_time: 301
+
+---
+
+test:
+    test_id: 21
+    hikers: 15
+    walk_time: [1, 2, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+    crossing_time: 134
+
+---
+
+test:
+    test_id: 22
+    hikers: 20
+    walk_time: [1, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
+    crossing_time: 534
+
+---
+
+test:
+    test_id: 23
+    hikers: 20
+    walk_time: [1, 2, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    crossing_time: 189
+
+---
+
+test:
+    test_id: 24
+    hikers: 20
+    walk_time: [1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    crossing_time: 235
+
+...

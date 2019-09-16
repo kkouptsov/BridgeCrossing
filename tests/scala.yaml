@@ -1,0 +1,26 @@
+# Scala
+
+# see test 2
+test:
+    test_id: 25
+    hikers: 4
+    walk_time: [1, 2, 5, 10]
+    crossing_time: 17
+
+---
+
+test:
+    test_id: 26
+    hikers: 5
+    walk_time: [2.5, 5.0, 12.5, 25.0, 100.0]
+    crossing_time: 132.5
+
+---
+
+test:
+    test_id: 27
+    hikers: 6
+    walk_time: [1.5, 3.0, 7.5, 15.0, 6.0, 10.0]
+    crossing_time: 40.5
+
+...

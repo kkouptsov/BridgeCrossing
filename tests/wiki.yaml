@@ -1,0 +1,46 @@
+#
+#
+
+# https://en.wikipedia.org/wiki/Bridge_and_torch_problem
+
+test:
+    test_id: 1
+    hikers: 4
+    walk_time: [1, 2, 5, 8]
+    crossing_time: 15
+
+---
+# The following are from Calude - The Bridge Crossing Problem
+
+test:
+    test_id: 2
+    hikers: 4
+    walk_time: [1, 2, 5, 10]
+    crossing_time: 17
+
+---
+
+test:
+    test_id: 3
+    hikers: 4
+    walk_time: [1, 2, 4, 10]
+    crossing_time: 17
+
+---
+
+test:
+    test_id: 4
+    hikers: 4
+    walk_time: [1, 2, 9, 10]
+    crossing_time: 17
+
+---
+
+test:
+    test_id: 5
+    hikers: 4
+    walk_time: [1, 4, 5, 10]
+    crossing_time: 21
+
+
+...
