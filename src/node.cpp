@@ -82,7 +82,7 @@ std::vector<std::string> Node::reconstruct(std::string first, std::string last)
            But we got an exception to catch.
            Since we may be running a batch of tests, and this may
            occur only with one of them, silently suppress the exception,
-           returnu nonsense, and continue.
+           return nonsense, and continue.
            
            TODO: better handling
         */
