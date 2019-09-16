@@ -27,29 +27,24 @@ public:
      * Create a state describing locations of all hikers and the torch.
      */
     State(int n, bool val = false, bool type = false) : 
-        m_state(n, val), m_type{type}
+        m_type{type}, m_state(n, val)
     {
     }
 
     State(std::vector<bool> state, bool type = false) : 
-        m_state(state), m_type{type}
+        m_type{type}, m_state(state)
     {
     }
 
     State(const State &s) : 
-        m_state {s.m_state}, m_type{s.m_type}
+        m_type{s.m_type}, m_state {s.m_state}
     {
     }
 
     /**
      * Return a vector with numbers of the hikers, which are on the specified side.
      */
-    std::vector<int> index(bool val = false);
-
-    /**
-     * Return where the torch is: true if it is on the right and false if on the left.
-     */
-    bool type() { return m_type; }
+    std::vector<int> get_index(bool val = false);
 
     /**
      * Return the list of state "neighbors", that is the states that can be obtained
@@ -65,9 +60,15 @@ public:
  
     friend std::ostream& operator<<(std::ostream & o, const State & s);
 
+public:
+    /**
+     * Where the torch is: true if it is on the right and false if on the left.
+     */
+    bool m_type;
+
 private:
     std::vector<bool> m_state;
-    bool m_type;
+
 };
 
 }

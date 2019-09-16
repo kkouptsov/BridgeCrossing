@@ -41,6 +41,8 @@ int main(int argc, char *argv[])
 
                 // run the test
                 BridgeCrossing::Test(test_id, count, walk_time, crossing_time).run();
+
+                break;
             }
             catch(BridgeCrossing::Exception::TestFailed & e) {
                 // If a test failed for some reason, skip it and continue

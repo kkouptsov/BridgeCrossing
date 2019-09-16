@@ -9,17 +9,17 @@
 namespace BridgeCrossing {
 
 /*
-   Return a vector with numbers of the hikers, which are on the specified side.
+   Return a vector with numbers of the hikers, which can be moved to the other side.
+   val is the location of the torch: false = on the left, true = on the right.
+   If val==true, pick those with the value 'true', which means they are on the right side.
+   If val==false, pick those with the value 'false', whcih means they are on the left side.
 */
-std::vector<int> State::index(bool val)
+std::vector<int> State::get_index(bool val)
 {
     std::vector<int> matches {};
-    auto i = m_state.begin(), end = m_state.end();
-    int pos = 0;
-    for (; i != end; ++i, ++pos) {
-        if (*i == val) {
-            matches.push_back(pos);
-        }
+    for(unsigned int i = 0; i < m_state.size(); ++i) {
+        if (m_state[i] == val)
+            matches.push_back(i);
     }
     return matches;
 }
@@ -31,36 +31,36 @@ std::vector<int> State::index(bool val)
 std::vector<std::pair<State, double>> State::neighbors(std::vector<double> &walk_time)
 {
     std::vector<std::pair<State, double>> result{};
-    if (type()) {
+    if (m_type) {
         // who is on the right side
-        std::vector<int> right = index(true);
-        // iterate over pairs who can cross the bridge
-        for (unsigned int i = 0; i < right.size(); ++i) {
-            for (unsigned int j = 1; j < right.size(); ++j) {
-                // make the new state
-                std::vector<bool> tmp(m_state);
-                // set to false meaning they crossed the bridge back
-                tmp[right[i]] = false;
-                tmp[right[j]] = false;
-                State s(tmp, !m_type);
-                // find associated cost
-                double cost = std::max(walk_time[right[i]], walk_time[right[j]]);
-                result.push_back(std::make_pair(s, cost));
-            }
+        std::vector<int> index = get_index(true);
+        // iterate over those on the left
+        for (unsigned int i = 0; i < index.size(); ++i) {
+            // make the new state
+            std::vector<bool> tmp(m_state);
+            // set to true meaning the hiker crossed the bridge to the right
+            tmp[index[i]] = false;
+            State s(tmp, !m_type);
+            double cost = walk_time[index[i]];
+            result.push_back(std::make_pair(s, cost));
         }
     }
     else {
         // who is on the left side
-        std::vector<int> left = index(false);
-        // iterate over those on the left
-        for (unsigned int i = 0; i < left.size(); ++i) {
-            // make the new state
-            std::vector<bool> tmp(m_state);
-            // set to true meaning the hiker crossed the bridge to the right
-            tmp[left[i]] = true;
-            State s(tmp, !m_type);
-            double cost = walk_time[left[i]];
-            result.push_back(std::make_pair(s, cost));
+        std::vector<int> index = get_index(false);
+        // iterate over pairs who can cross the bridge
+        for (unsigned int i = 0; i < index.size(); ++i) {
+            for (unsigned int j = i + 1; j < index.size(); ++j) {
+                // make the new state
+                std::vector<bool> tmp(m_state);
+                // set to false meaning they crossed the bridge back
+                tmp[index[i]] = true;
+                tmp[index[j]] = true;
+                State s(tmp, !m_type);
+                // find associated cost
+                double cost = std::max(walk_time[index[i]], walk_time[index[j]]);
+                result.push_back(std::make_pair(s, cost));
+            }
         }
     }
     return result;
