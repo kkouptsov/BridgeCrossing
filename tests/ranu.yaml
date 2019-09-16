@@ -45,7 +45,7 @@ test:
     test_id: 11
     hikers: 7
     walk_time: [1, 7, 8, 9, 10, 12, 15]
-    crossing_time: 65
+    crossing_time: 66
 
 ---
 
@@ -69,7 +69,7 @@ test:
     test_id: 14
     hikers: 8
     walk_time: [1, 7, 8, 9, 10, 11, 12, 13]
-    crossing_time: 76
+    crossing_time: 77
 
 ---
 
