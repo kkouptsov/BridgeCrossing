@@ -17,18 +17,23 @@ void Test::run()
     std::string start_name = start.to_string();
     std::string end_name = end.to_string();
 
+    // In Dijkstra's algorithm we need nodes ordered by increasing weight.
+    auto GreaterByWeight = [](std::shared_ptr<Node> a, std::shared_ptr<Node> b) { return a->weight > b->weight; };
+
     // These are states that were not completely processed.
-    std::queue<std::shared_ptr<Node>> Q;
+    std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, decltype(GreaterByWeight)> Q(GreaterByWeight);
+
+    // Start node
     std::shared_ptr<Node> node = Node::getNode(start);
     node->weight = 0;
     Q.push(node);
 
     // Dijkstra's shortest path algorithm.
     while(!Q.empty()) {
-        std::shared_ptr<Node> current = Q.front();
-        Q.pop();
+        std::shared_ptr<Node> current = Q.top(); Q.pop();
         if (current->visited)
             continue;
+        current->visited = true;
         std::string current_name = current->to_string();
         auto neighbors = current->neighbors(m_walk_time);
         for (auto & e : neighbors) {
@@ -42,8 +47,7 @@ void Test::run()
             }
             Q.push(node);
         }
-        current->visited = true;
-    }
+   }
 
     std::cout << "Test: " << m_test_id << '\n';
 
