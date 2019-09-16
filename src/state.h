@@ -14,7 +14,7 @@ namespace BridgeCrossing {
     crossed the bridge and is on the "right" bank. The value of false means the hiker is still
     at the "left" bank.
 
-    Additional bit is needed to indicate the location of the torch. "true" means it is at the right
+    m_type is needed to indicate the location of the torch. "true" means it is at the right
     bank, and "false" at the left.
 
     A short notation of the state is "1001L", which means the first and the fouth hikers
