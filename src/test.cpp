@@ -3,6 +3,7 @@
 #include <utility>
 #include <map>
 #include <queue>
+#include <string>
 #include "test.h"
 #include "state.h"
 #include "node.h"
@@ -12,7 +13,9 @@ namespace BridgeCrossing {
 void Test::run()
 {
     State start(m_count);
+    State end(m_count, 1, true);
     std::string start_name = start.to_string();
+    std::string end_name = end.to_string();
 
     // These are states that were not completely processed.
     std::queue<Node*> Q;
@@ -43,10 +46,23 @@ void Test::run()
     }
 
     // Visualize the data
-    std::cout << "Visited nodes: \n";
+    std::cout << "Visited nodes:\n";
     std::vector<Node*> nodes = Node::getAllNodes();
     for (auto &e : nodes) {
         std::cout << e << '\n';
+    }
+    std::cout << '\n';
+
+    // Get weight
+    Node* end_node = Node::getNode(end_name);
+    std::cout << "Total crossing time:\n";
+    std::cout << end_node->weight << '\n';
+    std::cout << "Test " << ((std::abs(end_node->weight - m_crossing_time) < 1.e-3) ? "suceeded" : "failed") << '\n';
+
+    // Get path
+    std::vector<std::string> path = Node::reconstruct(start_name, end_name);
+    for (auto &e : path) {
+        std::cout << e << ' ';
     }
     std::cout << '\n';
 
