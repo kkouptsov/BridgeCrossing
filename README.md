@@ -19,19 +19,19 @@ A classical setup, for example as [mentioned in Wikipedia](https://en.wikipedia.
 
 There have been numerous rigorous studies of the problem. In the `/doc` directory there are three articles that I found useful: [Calude](https://github.com/kkouptsov/BridgeCrossing/blob/master/doc/Calude%20-%20The%20Bridge%20Crossing%20Problem.pdf), [Rote](https://github.com/kkouptsov/BridgeCrossing/blob/master/doc/Rote%20-%20Crossing%20the%20bridge%20at%20night.pdf), and [Ranu](https://github.com/kkouptsov/BridgeCrossing/blob/master/doc/Ranu%20-%20Optimization%20Rules%20in%20DLV%20for%20the%20Bridge%20Crossing%20Problem.pdf).
 
-Mentioned sources use different formulations of the problem, with four and more people in the group, and provide optimal crossing times among other things. This data, albeit unreliable, may serve as a test cases for the solver algorithm to be written. This data was harvested into several files in the `/tests` directory.
+The sources mentioned above use different formulations of the problem, with four and more people in the group, and provide optimal crossing times among other things. This data, albeit unreliable, may serve as a test cases for the solver algorithm to be written. This data was harvested into several files in the `/tests` directory. Most of the sources contain crossing times, which was chosen as a default. If some example contained bridge length and walking speeds, the data has also been converted to a list of crossing times.
 
-Choice if the crossing strategy depends on the values of crossing times. Several crossing strategies have been identified:
+The choice of the crossing strategy depends on the values of crossing times. Several crossing strategies have been identified:
 
 * __Piggyback strategy__: the fastest person escorts the others one at a time.
 
-* __Non-piggyback strategy__: two slowest persons, who have not yet crossed, travel together. This offsets time wasted on traveling each person separately. however, additional arrangements are needed to bring the torch back.
+* __Non-piggyback strategy__: two slowest persons, who have not yet crossed, travel together. This offsets time wasted on traveling each person separately. However, additional crossings are needed to bring the torch back.
 
 * __Mixed strategy__: there are cases when an optimal solution switches between two strategies above.
 
 ### Analysis
 
-To do computations under conditions of this problem, for example to compute crossing time or to find an optimal strategy, one has to be able to represent sequential states of the problem: what happens after each crossing (or move). One way is to use binary representation. Use one bit for each person and one bit for the torch. 
+To do computations under conditions of this problem, for example to find crossing time or an optimal strategy, one has to be able to represent sequential states of the problem: where people and torch are after each crossing (move). One way is to use binary representation: one bit for each person and one bit for the torch. 
 
 Let us suppose that the group of people crosses the bridge from "left" to "right". Let us denote "left" as `0` and "right" as `1`. Similarly for the torch. However, since the torch is special, I would like to separate it from the rest of representation. Let us denote the torch on the left side as `L` and on the right side as `R`.
 
@@ -43,7 +43,7 @@ While for a group of `N` people the number of possible distributions of people o
 
 It can be shown that crossing of one person from left to right is not optimal because the strategy with such crossing together with bringing the torch back can be reduced to a more optimal strategy which does not have such crossings. Similarly, crossing of two people from right to left is not optimal because it moves us farther from the goal to have all people on the right.
 
-Thus, the only moves worth considering are moving two people from left to right and having one person to move from right to left to bring back t he torch.
+Thus, the only moves worth considering are two people crossing from left to right and one person crossing from right to left to bring back the torch.
 
 The moves can be enumerated. For example, for the problem of four people, the possible first moves `L->R` are:
 
@@ -65,19 +65,19 @@ One possible way to find the optimal strategy is to enumerate all the paths and 
 
 A mockup of this algorithm is done in [`python/direct.py`](https://github.com/kkouptsov/BridgeCrossing/blob/master/python/direct.py). Starting from the initial "left" state, all possible moves are enumerated, and for each new "right" state all possible moves back are enumerated. The algorithm recursively continues until the end state `1111R` is encountered. Due to eliminated back-moves, the transition graph is acyclic, so the recursion will eventually stop.
 
-The algorithm has terrible complexity and is suitable only for relatively small input data (4-5 hikers). This method, however, emunerates all possible strategies with their weights thereby rigorously arriving at the optimal strategy. The strategy such obtained can be used as a reliable test case for a more optimal algorithm.
+The algorithm has terrible complexity and is suitable only for relatively small input data (4-5 hikers). This method, however, emunerates all possible paths with their weights thereby rigorously arriving at the optimal path. The path such obtained can be used as a reliable test case for a more optimal algorithm (proof by enumeration).
 
-Another, more efficiend, method is based on Dijkstra's shortest path algorithm. A mockup of this method is done in [`/python/dijkstra.py`](https://github.com/kkouptsov/BridgeCrossing/blob/master/python/dijkstra.py).
+Another, more efficient, method is based on Dijkstra's shortest path algorithm. A mockup of this method is done in [`/python/dijkstra.py`](https://github.com/kkouptsov/BridgeCrossing/blob/master/python/dijkstra.py).
 
-Typically, for Dijkstra's algorithm we have a list of nodes of the graph and a list of edges with their weight. For the "bridge and torch" problem, this approach is not feasible. It makes no sense to enumerate all nodes because some of them may not be accessed. This is a modification of the algorithm where possible edges and their weights are generated (discovered) on demand when one is at a specific node. Then, discovered state codes are used to create a node object, which together with the weight and other parameters is stored in a hashmap. The state code (a string) is used as a key to identify the node object: 
+Typically, for Dijkstra's algorithm we have a list of nodes of the graph and a list of edges with their weight. For the "bridge and torch" problem, this approach is not feasible. It makes no sense to enumerate all nodes because some of them may not be accessed, and similarly for the edges. The code uses a modified algorithm where adjacent edges and their weights are generated (discovered) when a specific node is processed. Then, discovered state codes are used to create a node object, which together with the weight and other parameters is stored in a hashmap. The state code (a string) is used as a key to identify the node object: 
 
 ```
 all_nodes["1011R'] = <node, weight, flags, ...>
 ```
 
-Why this is done? The state code (for example '1011R') can be generated in various ways when enumerating achievable states. But there must exist only one node object.
+Why it is done this way? The state code (for example '1011R') can be generated in various ways when enumerating achievable states. But there must exist only one node object.
 
-Once the Dijkstra' algorithm went over all the achievable nodes, `all_nodes` will contains all such nodes. In order to get the optimal path, the node object must store the backtrace information. We start from the end node and trace back to the beginning.
+Once the Dijkstra' algorithm went over all the achievable nodes, `all_nodes` will contains all such nodes. In order to get the optimal path, the node object must store the backtrace information. The optimal path can be recovered by starting from the end node and tracing back to the beginning.
 
 ### Implementaton
 
