@@ -61,7 +61,7 @@ void Test::run()
 #if 0
     // Visualize the data
     std::cout << "Visited nodes:\n";
-    std::vector<Node*> nodes = Node::getAllNodes();
+    std::vector<std::shared_ptr<Node>> nodes = Node::getAllNodes();
     for (auto &e : nodes) {
         std::cout << e << '\n';
     }
