@@ -93,6 +93,8 @@ The input of the program is the `.yaml` test file, which contains several separa
 
 ### Example
 
+Compute optimal path from `00..0L` to `11..1R`.
+
 ```
 $ ./run-tests ../tests/scala.yaml
 Test: 25
