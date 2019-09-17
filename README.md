@@ -19,6 +19,8 @@ A classical setup, for example as [mentioned in Wikipedia](https://en.wikipedia.
 
 There have been numerous rigorous studies of the problem. In the `/doc` directory there are three articles that I found useful: [Calude](https://github.com/kkouptsov/BridgeCrossing/blob/master/doc/Calude%20-%20The%20Bridge%20Crossing%20Problem.pdf), [Rote](https://github.com/kkouptsov/BridgeCrossing/blob/master/doc/Rote%20-%20Crossing%20the%20bridge%20at%20night.pdf), and [Ranu](https://github.com/kkouptsov/BridgeCrossing/blob/master/doc/Ranu%20-%20Optimization%20Rules%20in%20DLV%20for%20the%20Bridge%20Crossing%20Problem.pdf).
 
+Mentioned sources use different formulations of the problem, with four and more people in the group, and provide optimal crossing times among other things. This data, albeit unreliable, may serve as a test cases for the solver algorithm to be written. This data was harvested into several files in the `/tests` directory.
+
 Choice if the crossing strategy depends on the values of crossing times. Several crossing strategies have been identified:
 
 * __Piggyback strategy__: the fastest person escorts the others one at a time.
@@ -33,9 +35,9 @@ To do computations under conditions of this problem, for example to compute cros
 
 Let us suppose that the group of people crosses the bridge from "left" to "right". Let us denote "left" as `0` and "right" as `1`. Similarly for the torch. However, since the torch is special, I would like to separate it from the rest of representation. Let us denote the torch on the left side as `L` and on the right side as `R`.
 
-Before any crossing the group of four people can be written as `0000L`. When the first person crosses the bridge (with the torch), the state becomes `1000R`. And so on.
+Before any crossing the group of four people can be written as `0000L` (state __code__). When the first person crosses the bridge (with the torch), the state becomes `1000R`. And so on.
 
-During crossing of the bridge the states change from `L` to `R` and back to `R`, making a __path__.
+During crossing of the bridge the states change from `L` to `R` and back to `R`, making a __path__, a sequence of codes.
 
 While for a group of `N` people the number of possible distributions of people over two sides of the river is clearly `2^N`, not all such states are realizable. For example, `0000R` is impossible because it is not allowed to throw the torch over the river.
 
@@ -61,7 +63,21 @@ Each such move has an associated weight, which is the number of minutes spent on
 
 One possible way to find the optimal strategy is to enumerate all the paths and choose the one with the smallest cost. 
 
+A mockup of this algorithm is done in [`python/direct.py`](https://github.com/kkouptsov/BridgeCrossing/blob/master/python/direct.py). Starting from the initial "left" state, all possible moves are enumerated, and for each new "right" state all possible moves back are enumerated. The algorithm recursively continues until the end state `1111R` is encountered. Due to eliminated back-moves, the transition graph is acyclic, so the recursion will eventually stop.
 
+The algorithm has terrible complexity and is suitable only for relatively small input data (4-5 hikers). This method, however, emunerates all possible strategies with their weights thereby rigorously arriving at the optimal strategy. The strategy such obtained can be used as a reliable test case for a more optimal algorithm.
+
+Another, more efficiend, method is based on Dijkstra's shortest path algorithm. A mockup of this method is done in [`/python/dijkstra.py`](https://github.com/kkouptsov/BridgeCrossing/blob/master/python/dijkstra.py).
+
+Typically, for Dijkstra's algorithm we have a list of nodes of the graph and a list of edges with their weight. For the "bridge and torch" problem, this approach is not feasible. It makes no sense to enumerate all nodes because some of them may not be accessed. This is a modification of the algorithm where possible edges and their weights are generated (discovered) on demand when one is at a specific node. Then, discovered state codes are used to create a node object, which together with the weight and other parameters is stored in a hashmap. The state code (a string) is used as a key to identify the node object: 
+
+```
+all_nodes["1011R'] = <node, weight, flags, ...>
+```
+
+Why this is done? The state code (for example '1011R') can be generated in various ways when enumerating achievable states. But there must exist only one node object.
+
+Once the Dijkstra' algorithm went over all the achievable nodes, `all_nodes` will contains all such nodes. In order to get the optimal path, the node object must store the backtrace information. We start from the end node and trace back to the beginning.
 
 ### Implementaton
 
