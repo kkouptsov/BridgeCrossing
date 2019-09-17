@@ -81,4 +81,39 @@ Once the Dijkstra' algorithm went over all the achievable nodes, `all_nodes` wil
 
 ### Implementaton
 
+C++ code implements Dijkstra's algorithm. It is structured similarly to the mockup python code.
+
+The input of the program is the `.yaml` test file, which contains several separate problem setiings (test cases). The `main.cpp` code uses [`yaml-cpp`](https://github.com/jbeder/yaml-cpp) library to extract individual problem parameters.
+
+`test.{h,cpp}` runs individual test. It implements Dijkstra's algorithm.
+
+`state.{h,cpp}` implement `class State` to work with the state representation (code), including enumeration of neighbor states.
+
+`node.{h,cpp}` implement `class Node` as an object to store node parameters. Node also contains static map to store all encountered nodes.
+
+### Example
+
+```
+$ ./run-tests ../tests/scala.yaml
+Test: 25
+Computed crossing time: 17
+Expected crossing time: 17
+Test suceeded.
+0000L 1100R 0100L 0111R 0011L 1111R
+----------------------------------------------------
+Test: 26
+Computed crossing time: 132.5
+Expected crossing time: 132.5
+Test suceeded.
+00000L 11000R 01000L 01011R 00011L 11011R 01011L 11111R
+----------------------------------------------------
+Test: 27
+Computed crossing time: 40.5
+Expected crossing time: 40.5
+Test suceeded.
+000000L 110000R 010000L 011010R 001010L 111010R 011010L 011111R 001111L 111111R
+```
+
+PS. Other test cases may not necessarily succeed because the expected crossing times were not confirmed by other computations, so may be wrong.
+
 
