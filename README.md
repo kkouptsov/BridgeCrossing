@@ -41,7 +41,7 @@ During crossing of the bridge the states change from `L` to `R` and back to `R`,
 
 While for a group of `N` people the number of possible distributions of people over two sides of the river is clearly `2^N`, not all such states are realizable. For example, `0000R` is impossible because it is not allowed to throw the torch over the river.
 
-It can be shown that crossing of one person from left to right is not optimal because the strategy with such crossing together with bringing the torch back can be reduced to a more optimal strategy which does not have such crossings. Similarly, crossing of two people from right to left is not optimal because it moves us farther from the goal to have all people on the right.
+It can be shown that crossing of one person from left to right is not optimal because the path with such crossing together with bringing the torch back can be reduced to a more optimal path which does not have such crossings. Similarly, crossing of two people from right to left is not optimal because it moves us farther from the goal to have all people on the right.
 
 Thus, the only moves worth considering are two people crossing from left to right and one person crossing from right to left to bring back the torch.
 
@@ -65,7 +65,7 @@ One possible way to find the optimal strategy is to enumerate all the paths and 
 
 A mockup of this algorithm is done in [`python/direct.py`](https://github.com/kkouptsov/BridgeCrossing/blob/master/python/direct.py). Starting from the initial "left" state, all possible moves are enumerated, and for each new "right" state all possible moves back are enumerated. The algorithm recursively continues until the end state `1111R` is encountered. Due to eliminated back-moves, the transition graph is acyclic, so the recursion will eventually stop.
 
-The algorithm has terrible complexity and is suitable only for relatively small input data (4-5 hikers). This method, however, emunerates all possible paths with their weights thereby rigorously arriving at the optimal path. The path such obtained can be used as a reliable test case for a more optimal algorithm (proof by enumeration).
+The algorithm has terrible complexity and is suitable only for relatively small input data (4-5 hikers). This method, however, emunerates all possible paths with their weights thereby rigorously arriving at the optimal path (proof by enumeration). The path such obtained can be used as a reliable test case for a more optimal algorithm.
 
 Another, more efficient, method is based on Dijkstra's shortest path algorithm. A mockup of this method is done in [`/python/dijkstra.py`](https://github.com/kkouptsov/BridgeCrossing/blob/master/python/dijkstra.py).
 
@@ -75,9 +75,9 @@ Typically, for Dijkstra's algorithm we have a list of nodes of the graph and a l
 all_nodes["1011R'] = <node, weight, flags, ...>
 ```
 
-Why it is done this way? The state code (for example '1011R') can be generated in various ways when enumerating achievable states. But there must exist only one node object.
+Why it is done this way? The state code (for example '1011R') can be generated in various ways when enumerating achievable states. But for every such code there must exist only one node object.
 
-Once the Dijkstra' algorithm went over all the achievable nodes, `all_nodes` will contains all such nodes. In order to get the optimal path, the node object must store the backtrace information. The optimal path can be recovered by starting from the end node and tracing back to the beginning.
+After the Dijkstra' algorithm finishes, `all_nodes` will contains all discovered nodes. In order to get the optimal path, the node object must store the backtrace information. The optimal path can then be recovered by starting from the end node and tracing back to the beginning.
 
 ### Implementaton
 
@@ -85,7 +85,7 @@ C++ code implements Dijkstra's algorithm. It is structured similarly to the mock
 
 The input of the program is the `.yaml` test file, which contains several separate problem setiings (test cases). The `main.cpp` code uses [`yaml-cpp`](https://github.com/jbeder/yaml-cpp) library to extract individual problem parameters.
 
-`test.{h,cpp}` runs individual test. It implements Dijkstra's algorithm.
+`test.{h,cpp}` runs an individual test. It implements Dijkstra's algorithm.
 
 `state.{h,cpp}` implement `class State` to work with the state representation (code), including enumeration of neighbor states.
 
