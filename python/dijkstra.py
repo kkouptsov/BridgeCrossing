@@ -1,5 +1,6 @@
 from enum import Enum
 from math import inf # default node weight
+import heapq
 import sys
 
 # data = [100, 50, 20, 10]  # feet/minute
@@ -56,6 +57,9 @@ class node():
 
     def __repr__(self):
         return self.__str__()
+
+    def __lt__(self, other):
+        return self.weight < other.weight
 
     def __eq__(self, other):
         return make_key(self.code, self.type) == make_key(other.code, other.type)
@@ -119,8 +123,7 @@ def reconstruct(start, end):
 def dijkstra(start, end):
     pending = [start]
     while pending:
-        current = pending.pop(0)
-        # print(current)
+        current = heapq.heappop(pending)
         if current.visited:
             continue
         neighbors = current.neighbors()
@@ -128,8 +131,8 @@ def dijkstra(start, end):
             if node.weight > cost + current.weight:
                 node.weight = cost + current.weight
                 node.prev = make_key(current.code, current.type)
-            pending.append(node)
-            # print('     ', node)
+            heapq.heappush(pending, node)
+            heapq.heapify(pending)
         current.visited = True
 
 def main():
