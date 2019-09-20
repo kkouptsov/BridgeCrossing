@@ -12,8 +12,6 @@ import sys
 data = [100, 50, 20, 10, 25, 15]
 length = 150
 
-## TODO: this should be a class
-
 all_nodes = {}
 
 def make_key(code, type):
@@ -30,7 +28,6 @@ def get_node(code, type):
         all_nodes[hash] = res
     return res
 
-#####
 
 class node_type(Enum):
     left = 1
